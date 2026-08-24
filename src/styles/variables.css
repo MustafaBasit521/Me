@@ -1,0 +1,17 @@
+/* Color tokens — from SPECS.md section 1. Change values here, not in components. */
+:root {
+  --bg: #07090e;
+  --bg2: #0a0d14;
+  --bg3: #05070b;
+
+  --cyan: #00f0ff;
+  --cyan-soft: #7fe9ff;
+  --green: #3dff9e;
+
+  --text: #ffffff;
+  --muted: #a0aec0;
+
+  /* Fonts */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
