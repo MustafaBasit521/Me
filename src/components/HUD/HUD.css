@@ -86,3 +86,14 @@
   bottom: 72px;
   right: 36px;
 }
+
+/* The top hex labels sit at a fixed 72px — fine against a single-row nav,
+   but the nav wraps to a second row on narrow screens (see Header.css)
+   and would run into them. Purely decorative, so just drop them rather
+   than chase a moving collision. */
+@media (max-width: 640px) {
+  .hud-hex {
+    display: none;
+  }
+}
+

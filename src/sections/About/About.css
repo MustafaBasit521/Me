@@ -113,3 +113,9 @@
   letter-spacing: 0.05em;
   color: var(--cyan-soft);
 }
+
+@media (max-width: 640px) {
+  .about-stats {
+    grid-template-columns: 1fr;
+  }
+}

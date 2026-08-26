@@ -14,6 +14,13 @@
   padding-bottom: 0;
 }
 
+@media (max-width: 480px) {
+  .experience-row {
+    grid-template-columns: 64px 16px 1fr;
+    column-gap: 12px;
+  }
+}
+
 .experience-date {
   display: flex;
   flex-direction: column;

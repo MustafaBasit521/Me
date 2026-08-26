@@ -27,6 +27,24 @@ button {
   font: inherit;
 }
 
+/* Header (nav) + StatusBar (status text/audio toggle) share this row
+   instead of each being independently position:fixed. Two independent
+   fixed elements can never reliably avoid colliding on a narrow screen —
+   flex-wrap here lets StatusBar drop to its own line instead of
+   overlapping the nav once both don't fit on one row. */
+.top-bar {
+  position: fixed;
+  top: var(--edge);
+  left: var(--edge);
+  right: var(--edge);
+  z-index: var(--z-header);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px 20px;
+}
+
 /* Shared content-column box every inner page (About, Skills, ...) sits in.
    CLAUDE-CODE-BRIEF.md section 4. */
 .page-content {
@@ -39,6 +57,15 @@ button {
   z-index: var(--z-content);
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 240, 255, 0.3) transparent;
+}
+
+@media (max-width: 640px) {
+  .page-content {
+    top: 152px;
+    /* Leave clearance below for the fixed PageNext control — without this,
+       scrolled content's last visible line sits right under/behind it. */
+    max-height: calc(100vh - 222px);
+  }
 }
 
 .page-heading {

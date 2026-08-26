@@ -1,7 +1,6 @@
 .interaction-hint {
   position: fixed;
   top: 78%;
-  left: 50%;
   transform: translate(-50%, -50%);
   z-index: var(--z-cue);
   font-family: var(--font-mono);
@@ -13,6 +12,32 @@
   transition: color 0.2s ease, left 0.4s ease;
 }
 
+.interaction-hint--home {
+  left: 50%;
+}
+
+.interaction-hint--inner {
+  left: 74%;
+}
+
 .interaction-hint.is-targeted {
   color: var(--cyan-soft);
+}
+
+@media (max-width: 640px) {
+  .interaction-hint--home {
+    top: 68%;
+    max-width: calc(100vw - 40px);
+    white-space: normal;
+    text-align: center;
+    font-size: 9.5px;
+  }
+
+  /* PageNext already covers "advance to the next page" on inner pages at
+     this width, and the eye has moved far enough right (see
+     lib/eyeGeometry.js) that a label near it would crowd the content
+     column, so drop it rather than reposition it again. */
+  .interaction-hint--inner {
+    display: none;
+  }
 }

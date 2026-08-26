@@ -1,11 +1,8 @@
 .status-bar {
-  position: fixed;
-  top: var(--edge);
-  right: var(--edge);
-  z-index: var(--z-header);
   display: flex;
   align-items: center;
   gap: 20px;
+  flex-shrink: 0;
 }
 
 .status-dot {
@@ -15,6 +12,7 @@
   background: var(--green);
   box-shadow: 0 0 6px rgba(61, 255, 158, 0.8);
   animation: status-dot-pulse 2.4s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
 .status-text {
@@ -39,8 +37,26 @@
   font-size: 10px;
   letter-spacing: 0.16em;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .audio-toggle:hover {
   border-color: rgba(0, 240, 255, 0.5);
+}
+
+/* On narrow screens, the full status sentence would force StatusBar onto
+   its own wrapped row every time — drop it and shrink the audio button to
+   an icon so status-bar can often still share the header's row. */
+@media (max-width: 640px) {
+  .status-text {
+    display: none;
+  }
+
+  .audio-toggle {
+    padding: 6px 8px;
+  }
+
+  .audio-label {
+    display: none;
+  }
 }

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './EntityCore.css'
+import { eyeCenterFraction, eyeScaleTarget, eyeDimTarget } from '../../lib/eyeGeometry'
 
 const RINGS = 46
 const DPR_CAP = 1.5
@@ -306,9 +307,9 @@ function EntityCore({ isHome = true }) {
       const ap = 0 // pupil aperture — animates during page transitions (Phase 8)
 
       const home = isHomeRef.current
-      sc = ease(sc, home ? 1 : 0.6, 4.6, dt)
-      dim = ease(dim, home ? 1 : 0.3, 4.6, dt)
-      cxf = ease(cxf, home ? 0.5 : 0.74, 3.4, dt)
+      sc = ease(sc, eyeScaleTarget(home, width), 4.6, dt)
+      dim = ease(dim, eyeDimTarget(home, width), 4.6, dt)
+      cxf = ease(cxf, eyeCenterFraction(home, width), 3.4, dt)
 
       const cx = width * cxf
       const cy = height * 0.46

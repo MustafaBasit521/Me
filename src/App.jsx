@@ -17,6 +17,7 @@ import Experience from './sections/Experience/Experience'
 import Projects from './sections/Projects/Projects'
 import Contact from './sections/Contact/Contact'
 import { usePageNav, PAGES, PAGE_LABELS } from './hooks/usePageNav'
+import { eyeCenterFraction, eyeScaleTarget, eyeBaseRadius } from './lib/eyeGeometry'
 
 // Inner-page sections. Home is handled separately since it has no content
 // column / scan beam.
@@ -36,13 +37,14 @@ function App() {
   // Click-to-advance: works on every page, per CLAUDE-CODE-BRIEF.md section
   // 7 — clicking within R*0.34 of the eye's current center advances to the
   // next page. Content elements stopPropagation() so reading text doesn't
-  // trigger it (see About.jsx, Skills.jsx).
+  // trigger it (see About.jsx, Skills.jsx, ...).
   useEffect(() => {
     function handleClick(e) {
-      const cxf = isHome ? 0.5 : 0.74
-      const cx = window.innerWidth * cxf
-      const cy = window.innerHeight * 0.46
-      const R = Math.min(window.innerWidth * 0.3, window.innerHeight * 0.46)
+      const w = window.innerWidth
+      const h = window.innerHeight
+      const cx = w * eyeCenterFraction(isHome, w)
+      const cy = h * 0.46
+      const R = eyeBaseRadius(w, h) * eyeScaleTarget(isHome, w)
       const dist = Math.hypot(e.clientX - cx, e.clientY - cy)
       if (dist < R * 0.34) next()
     }
@@ -67,7 +69,7 @@ function App() {
       <InteractionHint
         text={hintText}
         targetedText={isHome ? 'TARGET LOCKED // CLICK TO INITIALIZE' : undefined}
-        left={isHome ? '50%' : '74%'}
+        variant={isHome ? 'home' : 'inner'}
       />
 
       {isHome && <Home />}
@@ -80,8 +82,10 @@ function App() {
 
       {!isHome && <PageNext page={page} onNext={next} />}
 
-      <Header activePage={page} onNavigate={goTo} />
-      <StatusBar statusText={statusText} />
+      <div className="top-bar">
+        <Header activePage={page} onNavigate={goTo} />
+        <StatusBar statusText={statusText} />
+      </div>
       <SocialNav />
     </>
   )

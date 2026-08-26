@@ -1,14 +1,9 @@
-.header {
-  position: fixed;
-  top: var(--edge);
-  left: var(--edge);
-  z-index: var(--z-header);
-}
-
 .header-nav {
   display: flex;
   align-items: center;
-  gap: clamp(18px, 1.8vw, 32px);
+  flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: clamp(14px, 1.8vw, 32px);
 }
 
 .header-nav-item {
@@ -23,6 +18,7 @@
   color: var(--muted);
   cursor: pointer;
   position: relative;
+  white-space: nowrap;
 }
 
 .header-nav-item:hover {
@@ -42,4 +38,15 @@
   height: 2px;
   background: var(--cyan);
   box-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+}
+
+@media (max-width: 480px) {
+  .header-nav {
+    column-gap: 12px;
+  }
+
+  .header-nav-item {
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+  }
 }

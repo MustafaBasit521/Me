@@ -18,7 +18,7 @@ function StatusBar({ statusText = 'SYSTEM INITIALIZED // STATUS: ACTIVE' }) {
           <path d="M4 10v4h4l5 5V5L8 10H4z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
           <path d="M16 8.5a5 5 0 0 1 0 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
-        AUDIO {audioOn ? 'ON' : 'OFF'}
+        <span className="audio-label">AUDIO {audioOn ? 'ON' : 'OFF'}</span>
       </button>
     </div>
   )

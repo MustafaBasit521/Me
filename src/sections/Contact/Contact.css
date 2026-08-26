@@ -30,10 +30,19 @@
 }
 
 .contact-value {
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-family: var(--font-mono);
   font-size: 13px;
   letter-spacing: 0.02em;
   color: var(--text);
+}
+
+@media (max-width: 480px) {
+  .contact-row {
+    grid-template-columns: 60px 1fr auto;
+    gap: 10px;
+  }
 }
 
 .contact-action {

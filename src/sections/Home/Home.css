@@ -84,3 +84,16 @@
   height: 1px;
   background: rgba(127, 233, 255, 0.35);
 }
+
+@media (max-width: 640px) {
+  /* Decorative telemetry — the name/subtitle needs the room it would
+     otherwise compete with once the subtitle wraps to two lines. */
+  .home-stats {
+    display: none;
+  }
+
+  .home-coords {
+    font-size: 10px;
+  }
+}
+
