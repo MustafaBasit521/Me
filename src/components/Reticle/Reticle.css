@@ -4,8 +4,10 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: var(--z-reticle);
-  width: clamp(300px, 34vw, 500px);
-  height: clamp(300px, 34vw, 500px);
+  /* Diameter = 2R, matching EntityCore's R = min(w*0.3, h*0.46) exactly,
+     so the ring hugs the real particle field's outer edge. */
+  width: min(60vw, 92vh);
+  height: min(60vw, 92vh);
   opacity: 0.42;
   pointer-events: none;
 }
