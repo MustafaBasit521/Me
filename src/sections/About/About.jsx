@@ -13,7 +13,7 @@ const STATS = [
 
 function About() {
   return (
-    <div className="about" onClick={(e) => e.stopPropagation()}>
+    <div className="about page-content" onClick={(e) => e.stopPropagation()}>
       <PageEyebrow index={2} label="ABOUT ME" />
 
       <div className="about-body">

@@ -12,16 +12,25 @@ import ScanBeam from './components/ScanBeam/ScanBeam'
 import PageNext from './components/PageNext/PageNext'
 import Home from './sections/Home/Home'
 import About from './sections/About/About'
+import Skills from './sections/Skills/Skills'
 import { usePageNav, PAGES, PAGE_LABELS } from './hooks/usePageNav'
+
+// Inner-page sections, added as each gets built. Home is handled
+// separately since it has no content column / scan beam.
+const SECTIONS = {
+  about: About,
+  skills: Skills,
+}
 
 function App() {
   const { page, goTo, next } = usePageNav()
   const isHome = page === 'home'
+  const ActiveSection = SECTIONS[page]
 
   // Click-to-advance: works on every page, per CLAUDE-CODE-BRIEF.md section
   // 7 — clicking within R*0.34 of the eye's current center advances to the
   // next page. Content elements stopPropagation() so reading text doesn't
-  // trigger it (see About.jsx).
+  // trigger it (see About.jsx, Skills.jsx).
   useEffect(() => {
     function handleClick(e) {
       const cxf = isHome ? 0.5 : 0.74
@@ -56,9 +65,9 @@ function App() {
       />
 
       {isHome && <Home />}
-      {page === 'about' && (
+      {ActiveSection && (
         <>
-          <About />
+          <ActiveSection />
           <ScanBeam trigger={page} />
         </>
       )}

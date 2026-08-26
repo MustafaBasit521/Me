@@ -26,3 +26,26 @@ body {
 button {
   font: inherit;
 }
+
+/* Shared content-column box every inner page (About, Skills, ...) sits in.
+   CLAUDE-CODE-BRIEF.md section 4. */
+.page-content {
+  position: fixed;
+  left: var(--edge);
+  top: clamp(94px, 13vh, 122px);
+  width: min(720px, 56vw);
+  max-height: calc(100vh - clamp(150px, 20vh, 196px));
+  overflow-y: auto;
+  z-index: var(--z-content);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 240, 255, 0.3) transparent;
+}
+
+.page-heading {
+  margin: 0 0 28px;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(24px, 2.1vw, 34px);
+  letter-spacing: 0.05em;
+  color: var(--text);
+}

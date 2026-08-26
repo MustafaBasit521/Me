@@ -48,5 +48,18 @@ export function usePageNav() {
     return () => window.removeEventListener('keydown', handleKey)
   }, [step, goTo])
 
+  // Browsers don't reload the page for a same-document hash change (address
+  // bar edit, an <a href="#x"> elsewhere, back/forward) — replaceState()
+  // itself never fires this, so there's no feedback loop with goTo() above.
+  useEffect(() => {
+    function handleHashChange() {
+      const id = pageFromHash()
+      setPage(id)
+      setVisited((prev) => (prev.has(id) ? prev : new Set(prev).add(id)))
+    }
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
+
   return { page, visited, goTo, next: () => step(1), prev: () => step(-1) }
 }
