@@ -30,7 +30,7 @@ function Skills() {
         ))}
       </div>
 
-      <p className="skills-hint">SWAP THESE TAGS FOR YOUR REAL STACK</p>
+      <p className="page-hint">SWAP THESE TAGS FOR YOUR REAL STACK</p>
     </div>
   )
 }

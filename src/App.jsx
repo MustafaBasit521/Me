@@ -13,13 +13,19 @@ import PageNext from './components/PageNext/PageNext'
 import Home from './sections/Home/Home'
 import About from './sections/About/About'
 import Skills from './sections/Skills/Skills'
+import Experience from './sections/Experience/Experience'
+import Projects from './sections/Projects/Projects'
+import Contact from './sections/Contact/Contact'
 import { usePageNav, PAGES, PAGE_LABELS } from './hooks/usePageNav'
 
-// Inner-page sections, added as each gets built. Home is handled
-// separately since it has no content column / scan beam.
+// Inner-page sections. Home is handled separately since it has no content
+// column / scan beam.
 const SECTIONS = {
   about: About,
   skills: Skills,
+  experience: Experience,
+  projects: Projects,
+  contact: Contact,
 }
 
 function App() {

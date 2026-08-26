@@ -49,3 +49,14 @@ button {
   letter-spacing: 0.05em;
   color: var(--text);
 }
+
+/* The muted "send me your real X" footer line — Skills, Experience,
+   Projects all repeat it. */
+.page-hint {
+  margin: 28px 0 0;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(160, 174, 192, 0.4);
+}
