@@ -1,0 +1,127 @@
+.about {
+  position: fixed;
+  left: var(--edge);
+  top: clamp(94px, 13vh, 122px);
+  width: min(720px, 56vw);
+  max-height: calc(100vh - clamp(150px, 20vh, 196px));
+  overflow-y: auto;
+  z-index: var(--z-content);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 240, 255, 0.3) transparent;
+}
+
+.about-body {
+  display: flex;
+  gap: 32px;
+}
+
+@media (max-width: 820px) {
+  .about-body {
+    flex-direction: column;
+  }
+}
+
+.about-photo {
+  position: relative;
+  flex-shrink: 0;
+  margin-bottom: 24px;
+}
+
+.about-photo-frame {
+  width: clamp(150px, 17vw, 236px);
+  height: clamp(188px, 21vw, 296px);
+  padding: 7px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  background: linear-gradient(180deg, rgba(11, 17, 26, 0.6), rgba(7, 10, 16, 0.5));
+}
+
+.about-photo-frame::before,
+.about-photo-frame::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--cyan);
+}
+.about-photo-frame::before {
+  top: -1px;
+  left: -1px;
+  border-right: none;
+  border-bottom: none;
+}
+.about-photo-frame::after {
+  bottom: -1px;
+  right: -1px;
+  border-left: none;
+  border-top: none;
+}
+
+.about-photo-placeholder {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-align: center;
+  color: rgba(160, 174, 192, 0.4);
+  padding: 0 12px;
+}
+
+.about-photo-caption {
+  position: absolute;
+  top: 100%;
+  margin-top: 9px;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(160, 174, 192, 0.4);
+}
+
+.about-text h2 {
+  margin: 0 0 20px;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(24px, 2.4vw, 36px);
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.about-text p {
+  margin: 0 0 32px;
+  max-width: 46ch;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: rgba(160, 174, 192, 0.8);
+  text-wrap: pretty;
+}
+
+.about-stats {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 40px;
+  max-width: 420px;
+}
+
+.about-stat dt {
+  margin-bottom: 6px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(160, 174, 192, 0.45);
+}
+
+.about-stat dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.05em;
+  color: var(--cyan-soft);
+}

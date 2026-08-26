@@ -1,25 +1,18 @@
+import { PAGES, PAGE_LABELS } from '../../hooks/usePageNav'
 import './Header.css'
 
-const NAV_ITEMS = [
-  { id: 'home', label: 'HOME' },
-  { id: 'about', label: 'ABOUT ME' },
-  { id: 'skills', label: 'SKILLS' },
-  { id: 'experience', label: 'EXPERIENCE' },
-  { id: 'projects', label: 'PROJECTS' },
-  { id: 'contact', label: 'CONTACT' },
-]
-
-function Header({ activePage = 'home' }) {
+function Header({ activePage = 'home', onNavigate }) {
   return (
     <header className="header">
       <nav className="header-nav" aria-label="Primary">
-        {NAV_ITEMS.map((item) => (
+        {PAGES.map((id) => (
           <button
-            key={item.id}
+            key={id}
             type="button"
-            className={`header-nav-item${item.id === activePage ? ' is-active' : ''}`}
+            className={`header-nav-item${id === activePage ? ' is-active' : ''}`}
+            onClick={() => onNavigate?.(id)}
           >
-            {item.label}
+            {PAGE_LABELS[id]}
           </button>
         ))}
       </nav>

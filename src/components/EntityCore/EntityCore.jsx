@@ -129,12 +129,12 @@ function drawFiber(ctx, cx, cy, angle, r0, r1, bend) {
   ctx.stroke()
 }
 
-function drawPetal(ctx, cx, cy, R, spin, time, p) {
+function drawPetal(ctx, cx, cy, R, spin, time, dim, p) {
   const angle = p.a + spin
   const r0 = p.r * R
   const r1 = (p.r + p.len) * R
   const twinkle = 0.75 + 0.25 * Math.sin(time * 0.6 + p.ph)
-  const alpha = p.al * twinkle
+  const alpha = p.al * twinkle * dim
 
   ctx.strokeStyle = `rgba(60,225,255,${alpha.toFixed(3)})`
   ctx.lineWidth = p.wid
@@ -147,12 +147,12 @@ function drawPetal(ctx, cx, cy, R, spin, time, p) {
   }
 }
 
-function drawFilament(ctx, cx, cy, R, spin, time, ap, f) {
+function drawFilament(ctx, cx, cy, R, spin, time, ap, dim, f) {
   const angle = f.a + spin
   const r0 = f.r0 * R * (1 + ap * 2.4) // stretches outward as the pupil dilates (Phase 8)
   const r1 = r0 + f.len * R
   const twinkle = 0.7 + 0.3 * Math.sin(time * 0.8 + f.ph)
-  const alpha = f.al * twinkle
+  const alpha = f.al * twinkle * dim
 
   ctx.strokeStyle = `rgba(140,215,255,${alpha.toFixed(3)})`
   ctx.lineWidth = f.wid
@@ -211,10 +211,15 @@ function drawRipple(ctx, cx, cy, R, rp) {
   ctx.stroke()
 }
 
-function EntityCore() {
+function EntityCore({ isHome = true }) {
   const canvasRef = useRef(null)
   const bloomRef = useRef(null)
   const bloomWideRef = useRef(null)
+  const isHomeRef = useRef(isHome)
+
+  useEffect(() => {
+    isHomeRef.current = isHome
+  }, [isHome])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -278,10 +283,20 @@ function EntityCore() {
     let time = 0
     let spin = 0
     let prox = 0
+    let sc = 1 // iris scale — 1 idle, 0.6 on inner pages
+    let dim = 1 // global brightness — 1 idle, 0.3 on inner pages
+    let cxf = 0.5 // center-x as a fraction of width — 0.5 idle, 0.74 on inner pages
     let lastNow = performance.now()
     let nextRippleAt = 5 + Math.random() * 4
     let ripples = []
     let rafId
+
+    // Frame-rate-independent easing toward a target — CLAUDE-CODE-BRIEF.md
+    // section 6.2. Closes `rate` fraction of the remaining gap per second,
+    // which is why it feels weighted instead of linear.
+    function ease(current, target, rate, dt) {
+      return current + (target - current) * (1 - Math.exp(-dt * rate))
+    }
 
     function step(now) {
       const dt = Math.min(0.05, (now - lastNow) / 1000)
@@ -290,10 +305,15 @@ function EntityCore() {
       spin += dt * 0.024 // spinRate = 1 while idle
       const ap = 0 // pupil aperture — animates during page transitions (Phase 8)
 
-      const cx = width * 0.5
+      const home = isHomeRef.current
+      sc = ease(sc, home ? 1 : 0.6, 4.6, dt)
+      dim = ease(dim, home ? 1 : 0.3, 4.6, dt)
+      cxf = ease(cxf, home ? 0.5 : 0.74, 3.4, dt)
+
+      const cx = width * cxf
       const cy = height * 0.46
       const breathe = 1 + 0.014 * Math.sin(time * 0.34) + 0.006 * Math.sin(time * 0.83 + 1.1)
-      const R = Math.min(width * 0.3, height * 0.46) * breathe
+      const R = Math.min(width * 0.3, height * 0.46) * breathe * sc
 
       // Ripples: auto-spawn every 5-9s, then expand/fade/cull.
       if (time >= nextRippleAt) {
@@ -321,8 +341,8 @@ function EntityCore() {
       drawWaveRings(ctx, cx, cy, R, time)
       for (const rp of ripples) drawRipple(ctx, cx, cy, R, rp)
 
-      for (const p of petals) drawPetal(ctx, cx, cy, R, spin, time, p)
-      for (const f of filaments) drawFilament(ctx, cx, cy, R, spin, time, ap, f)
+      for (const p of petals) drawPetal(ctx, cx, cy, R, spin, time, dim, p)
+      for (const f of filaments) drawFilament(ctx, cx, cy, R, spin, time, ap, dim, f)
 
       const infl = R * 0.42
       for (const dot of dots) {
@@ -356,7 +376,7 @@ function EntityCore() {
           }
         }
 
-        const alpha = dot.al * twinkle * (1 + rb * 2.1) * extra * boost
+        const alpha = dot.al * twinkle * (1 + rb * 2.1) * extra * boost * dim
 
         ctx.fillStyle = `${dot.c}${alpha.toFixed(3)})`
         ctx.fillRect(x - dot.s / 2, y - dot.s / 2, dot.s, dot.s)
@@ -385,7 +405,7 @@ function EntityCore() {
       bloomWideCtx.clearRect(0, 0, bloomWideCanvas.width, bloomWideCanvas.height)
       bloomWideCtx.drawImage(canvas, 0, 0, bloomWideCanvas.width, bloomWideCanvas.height)
 
-      const bloomOpacity = clamp(0.85 + prox * 0.3, 0, 1)
+      const bloomOpacity = clamp((0.85 + prox * 0.3) * dim, 0, 1)
       bloomCanvas.style.opacity = String(bloomOpacity)
       bloomWideCanvas.style.opacity = String(bloomOpacity)
     }

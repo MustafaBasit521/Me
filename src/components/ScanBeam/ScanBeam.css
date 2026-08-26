@@ -1,0 +1,31 @@
+/* This overlay is a SIBLING of the scrolling content column, never a
+   child of it — a transformed child inflates the parent's scrollHeight in
+   Chrome, producing a phantom scrollbar and stealing content width.
+   CLAUDE-CODE-BRIEF.md section 10.2. Positioned to match the content
+   column exactly, just 24px wider/taller on each side. */
+.scan-beam-overlay {
+  position: fixed;
+  left: calc(var(--edge) - 24px);
+  top: clamp(94px, 13vh, 122px);
+  width: calc(min(720px, 56vw) + 48px);
+  height: calc(100vh - clamp(150px, 20vh, 196px));
+  overflow: hidden;
+  z-index: var(--z-content);
+  pointer-events: none;
+}
+
+.scan-beam-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 118px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(0, 240, 255, 0.05) 62%,
+    rgba(150, 245, 255, 0.5) 92%,
+    rgba(220, 252, 255, 0.85) 99%,
+    transparent
+  );
+  opacity: 0;
+}

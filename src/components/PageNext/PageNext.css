@@ -1,0 +1,35 @@
+.page-next {
+  position: fixed;
+  bottom: calc(var(--edge) + 10px);
+  right: var(--edge);
+  z-index: var(--z-header);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+}
+
+.page-next-count {
+  color: rgba(160, 174, 192, 0.5);
+}
+
+.page-next-line {
+  width: 24px;
+  height: 1px;
+  background: rgba(0, 240, 255, 0.35);
+}
+
+.page-next-label {
+  color: var(--cyan-soft);
+  text-transform: uppercase;
+}
+
+.page-next:hover .page-next-label {
+  color: var(--text);
+}
