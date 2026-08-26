@@ -10,4 +10,9 @@
   text-transform: uppercase;
   color: rgba(160, 174, 192, 0.6);
   white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.interaction-hint.is-targeted {
+  color: var(--cyan-soft);
 }

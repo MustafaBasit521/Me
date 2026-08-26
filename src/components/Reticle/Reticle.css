@@ -10,6 +10,11 @@
   height: min(60vw, 92vh);
   opacity: 0.42;
   pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.reticle.is-targeted {
+  opacity: 1;
 }
 
 .reticle-ring {

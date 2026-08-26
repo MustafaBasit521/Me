@@ -192,12 +192,37 @@ function drawHaloBands(ctx, cx, cy, R) {
   ctx.stroke()
 }
 
+// A single expanding, fading ring — auto-spawned every 5-9s, and also
+// brightens any dots it passes through (see the rb calc in the dot loop).
+// From brief section 6.5.
+function drawRipple(ctx, cx, cy, R, rp) {
+  const rad = rp.r * R
+
+  ctx.beginPath()
+  ctx.arc(cx, cy, rad, 0, TAU)
+  ctx.strokeStyle = `rgba(160,242,255,${rp.a.toFixed(3)})`
+  ctx.lineWidth = 1 + rp.a * 2.6
+  ctx.stroke()
+
+  ctx.beginPath()
+  ctx.arc(cx, cy, rad, 0, TAU)
+  ctx.strokeStyle = `rgba(0,180,255,${(rp.a * 0.5).toFixed(3)})`
+  ctx.lineWidth = R * 0.05 * rp.a
+  ctx.stroke()
+}
+
 function EntityCore() {
   const canvasRef = useRef(null)
+  const bloomRef = useRef(null)
+  const bloomWideRef = useRef(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
+    const bloomCanvas = bloomRef.current
+    const bloomWideCanvas = bloomWideRef.current
     const ctx = canvas.getContext('2d')
+    const bloomCtx = bloomCanvas.getContext('2d')
+    const bloomWideCtx = bloomWideCanvas.getContext('2d')
 
     let dots = []
     let petals = []
@@ -215,6 +240,20 @@ function EntityCore() {
       canvas.style.height = `${height}px`
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
+      // Bloom canvases stay the same CSS size (so they overlay exactly) but
+      // their internal pixel buffer is much smaller — that mismatch is the
+      // entire "bloom" trick: draw the sharp core into a tiny buffer, let
+      // the browser upscale it, then blur it with CSS.
+      bloomCanvas.width = Math.round(canvas.width / 4)
+      bloomCanvas.height = Math.round(canvas.height / 4)
+      bloomCanvas.style.width = `${width}px`
+      bloomCanvas.style.height = `${height}px`
+
+      bloomWideCanvas.width = Math.round(canvas.width / 10)
+      bloomWideCanvas.height = Math.round(canvas.height / 10)
+      bloomWideCanvas.style.width = `${width}px`
+      bloomWideCanvas.style.height = `${height}px`
+
       const count = Math.round(5200 * clamp(width / 1600, 0.55, 1.15))
       dots = makeDots(count)
       petals = makePetals(155)
@@ -224,9 +263,24 @@ function EntityCore() {
     resize()
     window.addEventListener('resize', resize)
 
+    const mouse = { x: 0, y: 0, has: false }
+    function handleMouseMove(e) {
+      mouse.x = e.clientX
+      mouse.y = e.clientY
+      mouse.has = true
+    }
+    function handleMouseLeave() {
+      mouse.has = false
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseleave', handleMouseLeave)
+
     let time = 0
     let spin = 0
+    let prox = 0
     let lastNow = performance.now()
+    let nextRippleAt = 5 + Math.random() * 4
+    let ripples = []
     let rafId
 
     function step(now) {
@@ -241,25 +295,68 @@ function EntityCore() {
       const breathe = 1 + 0.014 * Math.sin(time * 0.34) + 0.006 * Math.sin(time * 0.83 + 1.1)
       const R = Math.min(width * 0.3, height * 0.46) * breathe
 
+      // Ripples: auto-spawn every 5-9s, then expand/fade/cull.
+      if (time >= nextRippleAt) {
+        ripples.push({ r: 0.16, v: 0.2, a: 0.5 })
+        nextRippleAt = time + 5 + Math.random() * 4
+      }
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const rp = ripples[i]
+        rp.r += rp.v * dt
+        rp.v *= Math.exp(-dt * 0.5)
+        rp.a *= Math.exp(-dt * 0.62)
+        if (rp.r > 1.9 || rp.a < 0.015) ripples.splice(i, 1)
+      }
+
+      // Proximity: the whole iris brightens as the cursor nears the center.
+      const dcen = mouse.has ? Math.hypot(mouse.x - cx, mouse.y - cy) : Infinity
+      const proxTarget = mouse.has ? Math.max(0, 1 - dcen / (R * 1.1 + 1)) : 0
+      prox += (proxTarget - prox) * 0.08
+      const boost = 1 + prox * 0.5
+
       ctx.clearRect(0, 0, width, height)
       ctx.globalCompositeOperation = 'lighter'
 
       drawHaloBands(ctx, cx, cy, R)
       drawWaveRings(ctx, cx, cy, R, time)
+      for (const rp of ripples) drawRipple(ctx, cx, cy, R, rp)
 
       for (const p of petals) drawPetal(ctx, cx, cy, R, spin, time, p)
       for (const f of filaments) drawFilament(ctx, cx, cy, R, spin, time, ap, f)
 
+      const infl = R * 0.42
       for (const dot of dots) {
         const wobble =
           1 + 0.02 * Math.sin(time * dot.ws + dot.ph) + 0.012 * Math.sin(dot.a * 3.1 + time * 0.31)
         const twinkle = 0.58 + 0.42 * Math.sin(time * dot.tw + dot.ph)
         const angle = dot.a + time * dot.va + spin
 
-        const radius = dot.r * wobble * R
-        const x = cx + Math.cos(angle) * radius
-        const y = cy + Math.sin(angle) * radius
-        const alpha = dot.al * twinkle
+        // Ripple brightening: how close is this dot's ring to a passing ripple?
+        let rb = 0
+        for (const rp of ripples) {
+          const dr = Math.abs(dot.r - rp.r)
+          if (dr < 0.075) rb += (1 - dr / 0.075) * rp.a
+        }
+
+        const radius = dot.r * wobble * (1 + rb * 0.03) * R
+        let x = cx + Math.cos(angle) * radius
+        let y = cy + Math.sin(angle) * radius
+
+        // Cursor repulsion: dots within the influence radius flee the cursor.
+        let extra = 1
+        if (mouse.has) {
+          const dx = x - mouse.x
+          const dy = y - mouse.y
+          const dist = Math.hypot(dx, dy)
+          if (dist < infl && dist > 0.0001) {
+            const f = 1 - dist / infl
+            x += (dx / dist) * f * f * 26
+            y += (dy / dist) * f * f * 26
+            extra = 1 + f * 0.9
+          }
+        }
+
+        const alpha = dot.al * twinkle * (1 + rb * 2.1) * extra * boost
 
         ctx.fillStyle = `${dot.c}${alpha.toFixed(3)})`
         ctx.fillRect(x - dot.s / 2, y - dot.s / 2, dot.s, dot.s)
@@ -279,6 +376,18 @@ function EntityCore() {
       ctx.beginPath()
       ctx.arc(cx, cy, halo, 0, TAU)
       ctx.fill()
+
+      // Bloom pass: downscale the sharp core into the two small buffers —
+      // drawImage scales automatically because the destination canvas is
+      // smaller than the source. CSS blur() does the rest.
+      bloomCtx.clearRect(0, 0, bloomCanvas.width, bloomCanvas.height)
+      bloomCtx.drawImage(canvas, 0, 0, bloomCanvas.width, bloomCanvas.height)
+      bloomWideCtx.clearRect(0, 0, bloomWideCanvas.width, bloomWideCanvas.height)
+      bloomWideCtx.drawImage(canvas, 0, 0, bloomWideCanvas.width, bloomWideCanvas.height)
+
+      const bloomOpacity = clamp(0.85 + prox * 0.3, 0, 1)
+      bloomCanvas.style.opacity = String(bloomOpacity)
+      bloomWideCanvas.style.opacity = String(bloomOpacity)
     }
 
     function frame(now) {
@@ -295,10 +404,18 @@ function EntityCore() {
     return () => {
       cancelAnimationFrame(rafId)
       window.removeEventListener('resize', resize)
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('mouseleave', handleMouseLeave)
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="entity-core-canvas" aria-hidden="true" />
+  return (
+    <>
+      <canvas ref={bloomWideRef} className="entity-core-canvas entity-core-canvas--bloom-wide" aria-hidden="true" />
+      <canvas ref={bloomRef} className="entity-core-canvas entity-core-canvas--bloom" aria-hidden="true" />
+      <canvas ref={canvasRef} className="entity-core-canvas entity-core-canvas--core" aria-hidden="true" />
+    </>
+  )
 }
 
 export default EntityCore

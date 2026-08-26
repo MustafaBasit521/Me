@@ -1,10 +1,10 @@
+import { useTargetLock } from '../../hooks/useTargetLock'
 import './Reticle.css'
 
-// Static for now — target-lock (brightening to opacity 1 near the cursor)
-// is cursor-interaction behavior, built in Phase 7.
 function Reticle() {
+  const targeted = useTargetLock()
   return (
-    <div className="reticle" aria-hidden="true">
+    <div className={`reticle${targeted ? ' is-targeted' : ''}`} aria-hidden="true">
       <span className="reticle-ring" />
       <span className="reticle-tick reticle-tick--n" />
       <span className="reticle-tick reticle-tick--e" />

@@ -17,7 +17,10 @@ function App() {
       <Vignette />
       <HUD />
       <Reticle />
-      <InteractionHint text="MOVE CURSOR TO TARGET // CLICK TO INITIALIZE" />
+      <InteractionHint
+        text="MOVE CURSOR TO TARGET // CLICK TO INITIALIZE"
+        targetedText="TARGET LOCKED // CLICK TO INITIALIZE"
+      />
       <Home />
       <Header activePage="home" />
       <StatusBar statusText="SYSTEM INITIALIZED // STATUS: ACTIVE" />

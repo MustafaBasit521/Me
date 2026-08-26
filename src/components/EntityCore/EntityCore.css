@@ -1,9 +1,17 @@
-.entity-core-canvas{
+.entity-core-canvas {
   position: fixed;
   inset: 0;
-  width:100vw;
+  width: 100vw;
   height: 100vh;
-  z-index:var(--z-canvas);
-  pointer-events:none;
-  display:block;
+  z-index: var(--z-canvas);
+  pointer-events: none;
+  display: block;
+}
+
+.entity-core-canvas--bloom {
+  filter: blur(13px) saturate(1.1);
+}
+
+.entity-core-canvas--bloom-wide {
+  filter: blur(46px) saturate(1.35);
 }
