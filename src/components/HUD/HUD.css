@@ -5,34 +5,51 @@
   pointer-events: none;
 }
 
+.hud-rule {
+  position: absolute;
+  background: rgba(0, 240, 255, 0.05);
+}
+
+.hud-rule--v {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+.hud-rule--h {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
 .hud-corner {
   position: absolute;
-  width: clamp(20px, 2vw, 28px);
-  height: clamp(20px, 2vw, 28px);
+  width: 24px;
+  height: 24px;
   border: 1px solid rgba(0, 240, 255, 0.2);
 }
 
 .hud-corner--tl {
-  top: var(--edge);
-  left: var(--edge);
+  top: 34px;
+  left: 34px;
   border-right: none;
   border-bottom: none;
 }
 .hud-corner--tr {
-  top: var(--edge);
-  right: var(--edge);
+  top: 34px;
+  right: 34px;
   border-left: none;
   border-bottom: none;
 }
 .hud-corner--bl {
-  bottom: var(--edge);
-  left: var(--edge);
+  bottom: 34px;
+  left: 34px;
   border-right: none;
   border-top: none;
 }
 .hud-corner--br {
-  bottom: var(--edge);
-  right: var(--edge);
+  bottom: 34px;
+  right: 34px;
   border-left: none;
   border-top: none;
 }
@@ -45,18 +62,18 @@
 }
 
 .hud-hex--tl {
-  top: calc(var(--edge) + 44px);
-  left: var(--edge);
+  top: 72px;
+  left: 36px;
 }
 .hud-hex--tr {
-  top: calc(var(--edge) + 44px);
-  right: var(--edge);
+  top: 72px;
+  right: 36px;
 }
 .hud-hex--bl {
-  bottom: calc(var(--edge) + 44px);
-  left: var(--edge);
+  bottom: 72px;
+  left: 36px;
 }
 .hud-hex--br {
-  bottom: calc(var(--edge) + 44px);
-  right: var(--edge);
+  bottom: 72px;
+  right: 36px;
 }

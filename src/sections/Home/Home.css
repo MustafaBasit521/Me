@@ -1,7 +1,7 @@
 .home {
   position: fixed;
   inset: 0;
-  z-index: var(--z-content);
+  z-index: var(--z-telemetry);
   pointer-events: none;
 }
 
@@ -21,7 +21,7 @@
 .home-title {
   position: absolute;
   bottom: 13%;
-  left: calc(var(--edge) + 40px);
+  left: var(--edge);
 }
 
 .home-title h1 {
@@ -53,7 +53,7 @@
 .home-stats {
   position: absolute;
   bottom: 13%;
-  right: calc(var(--edge) + 40px);
+  right: var(--edge);
   display: flex;
   flex-direction: column;
   align-items: flex-end;

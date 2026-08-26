@@ -3,7 +3,7 @@
   top: 46%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: var(--z-core);
+  z-index: var(--z-canvas);
   width: clamp(260px, 30vw, 460px);
   height: clamp(260px, 30vw, 460px);
   display: flex;

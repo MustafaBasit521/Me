@@ -15,12 +15,22 @@
   --font-display: 'Space Grotesk', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Shared layout rhythm — the HUD chrome (corners, hex labels, nav) all
-     align to this one edge inset so nothing has to be tuned individually. */
-  --edge: clamp(20px, 2.4vw, 32px);
+  /* Shared layout rhythm — nav, telemetry, and content all align to this
+     one edge inset. From CLAUDE-CODE-BRIEF.md section 4. */
+  --edge: clamp(30px, 5.2vw, 100px);
 
-  /* Stacking order: HUD chrome sits above the core, content sits above both. */
-  --z-core: 5;
-  --z-hud: 10;
-  --z-content: 20;
+  /* Z-index ladder — from CLAUDE-CODE-BRIEF.md section 4. Every layer is a
+     sibling in App.jsx (not nested) so this order is guaranteed regardless
+     of DOM structure. */
+  --z-canvas: 1;
+  --z-grain: 2;
+  --z-vignette: 3;
+  --z-hud: 4;
+  --z-reticle: 6;
+  --z-cue: 7;
+  --z-telemetry: 8;
+  --z-content: 9;
+  --z-header: 10;
+  --z-social: 11;
+  --z-flash: 20;
 }

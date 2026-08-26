@@ -1,0 +1,12 @@
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-vignette);
+  pointer-events: none;
+  background: radial-gradient(
+    120% 100% at 50% 46%,
+    transparent 45%,
+    rgba(3, 5, 9, 0.5) 84%,
+    rgba(2, 3, 6, 0.9) 100%
+  );
+}

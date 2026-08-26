@@ -1,0 +1,83 @@
+.reticle {
+  position: fixed;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: var(--z-reticle);
+  width: clamp(300px, 34vw, 500px);
+  height: clamp(300px, 34vw, 500px);
+  opacity: 0.42;
+  pointer-events: none;
+}
+
+.reticle-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 240, 255, 0.5);
+}
+
+.reticle-tick {
+  position: absolute;
+  background: var(--cyan);
+}
+
+.reticle-tick--n,
+.reticle-tick--s {
+  left: 50%;
+  width: 1px;
+  height: 10px;
+  transform: translateX(-50%);
+}
+.reticle-tick--n {
+  top: -14px;
+}
+.reticle-tick--s {
+  bottom: -14px;
+}
+
+.reticle-tick--e,
+.reticle-tick--w {
+  top: 50%;
+  height: 1px;
+  width: 10px;
+  transform: translateY(-50%);
+}
+.reticle-tick--e {
+  right: -14px;
+}
+.reticle-tick--w {
+  left: -14px;
+}
+
+.reticle-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--cyan);
+}
+
+.reticle-corner--tl {
+  top: -8px;
+  left: -8px;
+  border-right: none;
+  border-bottom: none;
+}
+.reticle-corner--tr {
+  top: -8px;
+  right: -8px;
+  border-left: none;
+  border-bottom: none;
+}
+.reticle-corner--bl {
+  bottom: -8px;
+  left: -8px;
+  border-right: none;
+  border-top: none;
+}
+.reticle-corner--br {
+  bottom: -8px;
+  right: -8px;
+  border-left: none;
+  border-top: none;
+}

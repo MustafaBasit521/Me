@@ -1,8 +1,8 @@
 .header {
   position: fixed;
   top: var(--edge);
-  left: calc(var(--edge) + 40px);
-  z-index: var(--z-content);
+  left: var(--edge);
+  z-index: var(--z-header);
 }
 
 .header-nav {

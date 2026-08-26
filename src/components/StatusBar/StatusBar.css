@@ -1,8 +1,8 @@
 .status-bar {
   position: fixed;
   top: var(--edge);
-  right: calc(var(--edge) + 40px);
-  z-index: var(--z-content);
+  right: var(--edge);
+  z-index: var(--z-header);
   display: flex;
   align-items: center;
   gap: 20px;

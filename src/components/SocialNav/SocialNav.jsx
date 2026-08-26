@@ -40,7 +40,7 @@ function SocialNav() {
           target="_blank"
           rel="noreferrer"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d={link.path} />
           </svg>
         </a>

@@ -7,6 +7,11 @@ const HEX = { tl: '0x7F', tr: '0xA9', bl: '0x3C', br: '0x9A' }
 function HUD() {
   return (
     <div className="hud" aria-hidden="true">
+      <span className="hud-rule hud-rule--v" style={{ left: '18%' }} />
+      <span className="hud-rule hud-rule--v" style={{ left: '82%' }} />
+      <span className="hud-rule hud-rule--h" style={{ top: '24%' }} />
+      <span className="hud-rule hud-rule--h" style={{ top: '76%' }} />
+
       <span className="hud-corner hud-corner--tl" />
       <span className="hud-corner hud-corner--tr" />
       <span className="hud-corner hud-corner--bl" />
