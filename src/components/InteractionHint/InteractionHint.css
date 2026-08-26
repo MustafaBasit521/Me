@@ -1,0 +1,13 @@
+.interaction-hint {
+  position: fixed;
+  top: 78%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: var(--z-content);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(160, 174, 192, 0.6);
+  white-space: nowrap;
+}

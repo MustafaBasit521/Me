@@ -1,0 +1,62 @@
+.hud {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-hud);
+  pointer-events: none;
+}
+
+.hud-corner {
+  position: absolute;
+  width: clamp(20px, 2vw, 28px);
+  height: clamp(20px, 2vw, 28px);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+.hud-corner--tl {
+  top: var(--edge);
+  left: var(--edge);
+  border-right: none;
+  border-bottom: none;
+}
+.hud-corner--tr {
+  top: var(--edge);
+  right: var(--edge);
+  border-left: none;
+  border-bottom: none;
+}
+.hud-corner--bl {
+  bottom: var(--edge);
+  left: var(--edge);
+  border-right: none;
+  border-top: none;
+}
+.hud-corner--br {
+  bottom: var(--edge);
+  right: var(--edge);
+  border-left: none;
+  border-top: none;
+}
+
+.hud-hex {
+  position: absolute;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: rgba(160, 174, 192, 0.35);
+}
+
+.hud-hex--tl {
+  top: calc(var(--edge) + 44px);
+  left: var(--edge);
+}
+.hud-hex--tr {
+  top: calc(var(--edge) + 44px);
+  right: var(--edge);
+}
+.hud-hex--bl {
+  bottom: calc(var(--edge) + 44px);
+  left: var(--edge);
+}
+.hud-hex--br {
+  bottom: calc(var(--edge) + 44px);
+  right: var(--edge);
+}

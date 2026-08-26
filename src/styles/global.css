@@ -23,14 +23,6 @@ body {
   min-height: 100vh;
 }
 
-/* Temporary — removed once the real Home layout lands in Phase 2 */
-.app-placeholder {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--cyan-soft);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  font-size: 12px;
+button {
+  font: inherit;
 }

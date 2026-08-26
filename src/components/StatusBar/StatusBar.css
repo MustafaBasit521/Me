@@ -1,0 +1,46 @@
+.status-bar {
+  position: fixed;
+  top: var(--edge);
+  right: calc(var(--edge) + 40px);
+  z-index: var(--z-content);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px rgba(61, 255, 158, 0.8);
+  animation: status-dot-pulse 2.4s ease-in-out infinite;
+}
+
+.status-text {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(127, 233, 255, 0.8);
+  white-space: nowrap;
+}
+
+.audio-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--cyan-soft);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  cursor: pointer;
+}
+
+.audio-toggle:hover {
+  border-color: rgba(0, 240, 255, 0.5);
+}

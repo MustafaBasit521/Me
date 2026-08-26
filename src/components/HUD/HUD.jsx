@@ -1,0 +1,23 @@
+import './HUD.css'
+
+// The four hex codes are pure decoration — cosmetic "system" flavor text,
+// not real data. They stay fixed regardless of page.
+const HEX = { tl: '0x7F', tr: '0xA9', bl: '0x3C', br: '0x9A' }
+
+function HUD() {
+  return (
+    <div className="hud" aria-hidden="true">
+      <span className="hud-corner hud-corner--tl" />
+      <span className="hud-corner hud-corner--tr" />
+      <span className="hud-corner hud-corner--bl" />
+      <span className="hud-corner hud-corner--br" />
+
+      <span className="hud-hex hud-hex--tl">{HEX.tl}</span>
+      <span className="hud-hex hud-hex--tr">{HEX.tr}</span>
+      <span className="hud-hex hud-hex--bl">{HEX.bl}</span>
+      <span className="hud-hex hud-hex--br">{HEX.br}</span>
+    </div>
+  )
+}
+
+export default HUD

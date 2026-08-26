@@ -1,0 +1,33 @@
+.entity-core {
+  position: fixed;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: var(--z-core);
+  width: clamp(260px, 30vw, 460px);
+  height: clamp(260px, 30vw, 460px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.entity-core-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(38, 238, 255, 0.35) 0%,
+    rgba(24, 122, 255, 0.18) 45%,
+    rgba(24, 122, 255, 0) 72%
+  );
+  box-shadow: 0 0 80px rgba(0, 240, 255, 0.15);
+}
+
+.entity-core-pupil {
+  width: 32%;
+  height: 32%;
+  border-radius: 50%;
+  background: var(--bg3);
+  box-shadow: 0 0 40px 6px rgba(0, 0, 0, 0.9);
+}

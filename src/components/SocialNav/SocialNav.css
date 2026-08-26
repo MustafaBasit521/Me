@@ -1,0 +1,26 @@
+.social-nav {
+  position: fixed;
+  top: 50%;
+  right: var(--edge);
+  transform: translateY(-50%);
+  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding: 18px 12px;
+  border: 1px solid rgba(0, 240, 255, 0.16);
+  border-radius: 3px;
+}
+
+.social-link {
+  color: var(--cyan-soft);
+  display: flex;
+  opacity: 0.75;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.social-link:hover {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.7));
+}
