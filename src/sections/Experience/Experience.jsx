@@ -1,4 +1,5 @@
 import PageEyebrow from '../../components/PageEyebrow/PageEyebrow'
+import PageTransition from '../../components/PageTransition/PageTransition'
 import './Experience.css'
 
 // Placeholder roles — real ones land in Phase 9 (data-driven content).
@@ -30,7 +31,7 @@ const ENTRIES = [
 
 function Experience() {
   return (
-    <div className="experience page-content" onClick={(e) => e.stopPropagation()}>
+    <PageTransition className="experience page-content" stopClicks>
       <PageEyebrow index={4} label="EXPERIENCE" />
       <h2 className="page-heading">SERVICE RECORD</h2>
 
@@ -54,7 +55,7 @@ function Experience() {
       </div>
 
       <p className="page-hint">SEND ME YOUR REAL ROLES AND DATES</p>
-    </div>
+    </PageTransition>
   )
 }
 

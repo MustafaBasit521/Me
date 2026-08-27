@@ -1,4 +1,5 @@
 import PageEyebrow from '../../components/PageEyebrow/PageEyebrow'
+import PageTransition from '../../components/PageTransition/PageTransition'
 import './Projects.css'
 
 // Placeholder projects — real ones land in Phase 9 (data-driven content).
@@ -11,7 +12,7 @@ const PROJECTS = [
 
 function Projects() {
   return (
-    <div className="projects page-content" onClick={(e) => e.stopPropagation()}>
+    <PageTransition className="projects page-content" stopClicks>
       <PageEyebrow index={5} label="PROJECTS" />
       <h2 className="page-heading">BUILD LOG</h2>
 
@@ -29,7 +30,7 @@ function Projects() {
       </div>
 
       <p className="page-hint">SEND ME YOUR REAL PROJECTS AND I WILL FILL THESE IN</p>
-    </div>
+    </PageTransition>
   )
 }
 

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import PageEyebrow from '../../components/PageEyebrow/PageEyebrow'
+import PageTransition from '../../components/PageTransition/PageTransition'
 import './Contact.css'
 
 // Placeholder links — real ones land in Phase 9 (data-driven content).
@@ -23,7 +24,7 @@ function Contact() {
   }
 
   return (
-    <div className="contact page-content" onClick={(e) => e.stopPropagation()}>
+    <PageTransition className="contact page-content" stopClicks>
       <PageEyebrow index={6} label="CONTACT" />
       <h2 className="page-heading">OPEN CHANNEL</h2>
       <p className="contact-intro">
@@ -65,7 +66,7 @@ function Contact() {
           </a>
         </div>
       </div>
-    </div>
+    </PageTransition>
   )
 }
 

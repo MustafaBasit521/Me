@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import PageTransition from '../../components/PageTransition/PageTransition'
 import './Home.css'
 
 function clamp(v, min, max) {
@@ -33,7 +34,7 @@ function Home() {
   }, [])
 
   return (
-    <div className="home">
+    <PageTransition className="home">
       <div className="home-coords" aria-hidden="true">
         <span>LAT 41.902</span>
         <span>LON 12.496</span>
@@ -58,7 +59,7 @@ function Home() {
         SECTOR 04 // OBSERVATION
         <span className="home-sector-line" />
       </div>
-    </div>
+    </PageTransition>
   )
 }
 

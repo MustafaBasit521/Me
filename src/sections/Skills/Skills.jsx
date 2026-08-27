@@ -1,4 +1,5 @@
 import PageEyebrow from '../../components/PageEyebrow/PageEyebrow'
+import PageTransition from '../../components/PageTransition/PageTransition'
 import './Skills.css'
 
 // Placeholder stack — real skills land in Phase 9 (data-driven content).
@@ -11,7 +12,7 @@ const CATEGORIES = [
 
 function Skills() {
   return (
-    <div className="skills page-content" onClick={(e) => e.stopPropagation()}>
+    <PageTransition className="skills page-content" stopClicks>
       <PageEyebrow index={3} label="SKILLS" />
       <h2 className="page-heading">STACK MAP</h2>
 
@@ -31,7 +32,7 @@ function Skills() {
       </div>
 
       <p className="page-hint">SWAP THESE TAGS FOR YOUR REAL STACK</p>
-    </div>
+    </PageTransition>
   )
 }
 

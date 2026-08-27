@@ -212,15 +212,50 @@ function drawRipple(ctx, cx, cy, R, rp) {
   ctx.stroke()
 }
 
-function EntityCore({ isHome = true }) {
+function EntityCore({ isHome = true, page = 'home' }) {
   const canvasRef = useRef(null)
   const bloomRef = useRef(null)
   const bloomWideRef = useRef(null)
   const isHomeRef = useRef(isHome)
 
+  // Transition state, pushed in from outside the RAF loop by the effect
+  // below. Refs (not React state) because the loop reads them every frame
+  // without wanting a re-render for it.
+  const prevPageRef = useRef(page)
+  const pendingRipplesRef = useRef([])
+  const spinRateTargetRef = useRef(1)
+  const apTargetRef = useRef(0)
+
   useEffect(() => {
     isHomeRef.current = isHome
   }, [isHome])
+
+  // The transition sequence — CLAUDE-CODE-BRIEF.md section 8, minus the
+  // audio layer (not built yet) and the DOM-swap-during-flash trick (React
+  // already swaps the section synchronously; AnimatePresence in App.jsx
+  // handles the content fade separately). Skips the very first mount so
+  // navigating straight to a page on load doesn't fire a spurious burst.
+  useEffect(() => {
+    if (prevPageRef.current === page) return
+    prevPageRef.current = page
+
+    pendingRipplesRef.current.push({ r: 0.04, v: 2.5, a: 1.45 }) // shockwave
+    spinRateTargetRef.current = 5
+    apTargetRef.current = 1
+
+    const relax = setTimeout(() => {
+      pendingRipplesRef.current.push({ r: 0.08, v: 0.9, a: 0.6 }) // softer follow-up
+      apTargetRef.current = 0
+    }, 300)
+    const spinDown = setTimeout(() => {
+      spinRateTargetRef.current = 1
+    }, 420)
+
+    return () => {
+      clearTimeout(relax)
+      clearTimeout(spinDown)
+    }
+  }, [page])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -283,6 +318,8 @@ function EntityCore({ isHome = true }) {
 
     let time = 0
     let spin = 0
+    let spinRate = 1 // multiplier on the spin accumulator — spikes to 5 on transition
+    let ap = 0 // pupil aperture — pulses to 1 on transition, opens the pupil + filaments
     let prox = 0
     let sc = 1 // iris scale — 1 idle, 0.6 on inner pages
     let dim = 1 // global brightness — 1 idle, 0.3 on inner pages
@@ -303,8 +340,9 @@ function EntityCore({ isHome = true }) {
       const dt = Math.min(0.05, (now - lastNow) / 1000)
       lastNow = now
       time += dt
-      spin += dt * 0.024 // spinRate = 1 while idle
-      const ap = 0 // pupil aperture — animates during page transitions (Phase 8)
+      spinRate = ease(spinRate, spinRateTargetRef.current, 3.4, dt)
+      spin += dt * 0.024 * spinRate
+      ap = ease(ap, apTargetRef.current, 7, dt)
 
       const home = isHomeRef.current
       sc = ease(sc, eyeScaleTarget(home, width), 4.6, dt)
@@ -316,7 +354,12 @@ function EntityCore({ isHome = true }) {
       const breathe = 1 + 0.014 * Math.sin(time * 0.34) + 0.006 * Math.sin(time * 0.83 + 1.1)
       const R = Math.min(width * 0.3, height * 0.46) * breathe * sc
 
-      // Ripples: auto-spawn every 5-9s, then expand/fade/cull.
+      // Ripples: auto-spawn every 5-9s, then expand/fade/cull. Transition
+      // shockwaves are queued in from the effect above, outside this loop.
+      if (pendingRipplesRef.current.length) {
+        ripples.push(...pendingRipplesRef.current)
+        pendingRipplesRef.current = []
+      }
       if (time >= nextRippleAt) {
         ripples.push({ r: 0.16, v: 0.2, a: 0.5 })
         nextRippleAt = time + 5 + Math.random() * 4
@@ -384,9 +427,12 @@ function EntityCore({ isHome = true }) {
       }
 
       // Punch a hole of pure background over the center — without this the
-      // whole thing reads as a glowing disc, not an eye.
+      // whole thing reads as a glowing disc, not an eye. `ap` (aperture)
+      // swells this during transitions; `targeting` swells it slightly
+      // when the cursor sits in the click-to-advance hit zone.
       ctx.globalCompositeOperation = 'source-over'
-      const halo = R * 0.042 * 2.2
+      const targeting = dcen < R * 0.34
+      const halo = (R * (0.042 + 0.05 * ap) + (targeting ? 2.5 : 0)) * 2.2
       const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, halo)
       g.addColorStop(0, 'rgba(0,0,0,1)')
       g.addColorStop(0.45, 'rgba(0,0,0,1)')

@@ -1,4 +1,5 @@
 import PageEyebrow from '../../components/PageEyebrow/PageEyebrow'
+import PageTransition from '../../components/PageTransition/PageTransition'
 import './About.css'
 
 // Placeholder copy/values — real bio, photo, and stats land in Phase 9
@@ -13,7 +14,7 @@ const STATS = [
 
 function About() {
   return (
-    <div className="about page-content" onClick={(e) => e.stopPropagation()}>
+    <PageTransition className="about page-content" stopClicks>
       <PageEyebrow index={2} label="ABOUT ME" />
 
       <div className="about-body">
@@ -43,7 +44,7 @@ function About() {
           </dl>
         </div>
       </div>
-    </div>
+    </PageTransition>
   )
 }
 

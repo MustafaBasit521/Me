@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
+import { AnimatePresence } from 'framer-motion'
 import Grain from './components/Grain/Grain'
 import Vignette from './components/Vignette/Vignette'
+import Flash from './components/Flash/Flash'
 import HUD from './components/HUD/HUD'
 import Header from './components/Header/Header'
 import StatusBar from './components/StatusBar/StatusBar'
@@ -37,7 +39,7 @@ function App() {
   // Click-to-advance: works on every page, per CLAUDE-CODE-BRIEF.md section
   // 7 — clicking within R*0.34 of the eye's current center advances to the
   // next page. Content elements stopPropagation() so reading text doesn't
-  // trigger it (see About.jsx, Skills.jsx, ...).
+  // trigger it (see PageTransition.jsx).
   useEffect(() => {
     function handleClick(e) {
       const w = window.innerWidth
@@ -61,9 +63,10 @@ function App() {
 
   return (
     <>
-      <EntityCore isHome={isHome} />
+      <EntityCore isHome={isHome} page={page} />
       <Grain />
       <Vignette />
+      <Flash page={page} />
       <HUD showGrid={isHome} />
       {isHome && <Reticle />}
       <InteractionHint
@@ -72,13 +75,11 @@ function App() {
         variant={isHome ? 'home' : 'inner'}
       />
 
-      {isHome && <Home />}
-      {ActiveSection && (
-        <>
-          <ActiveSection />
-          <ScanBeam trigger={page} />
-        </>
-      )}
+      <AnimatePresence mode="sync">
+        {isHome && <Home key="home" />}
+        {ActiveSection && <ActiveSection key={page} />}
+      </AnimatePresence>
+      {ActiveSection && <ScanBeam trigger={page} />}
 
       {!isHome && <PageNext page={page} onNext={next} />}
 

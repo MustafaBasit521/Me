@@ -1,0 +1,13 @@
+.flash {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-flash);
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    60% 60% at 50% 46%,
+    rgba(255, 255, 255, 0.85),
+    rgba(120, 240, 255, 0.45) 34%,
+    transparent 74%
+  );
+}
