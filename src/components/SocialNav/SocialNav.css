@@ -15,6 +15,16 @@
   backdrop-filter: blur(10px);
 }
 
+@media (max-width: 640px) {
+  /* On inner pages the eye sits close to this rail (see
+     lib/eyeGeometry.js) — a backdrop-blur glass panel still shows some
+     glow bleed-through from whatever's behind it regardless of exact
+     overlap, so make it read as solid here instead of translucent. */
+  .social-nav {
+    background: linear-gradient(180deg, rgba(9, 13, 20, 0.94), rgba(6, 8, 13, 0.92));
+  }
+}
+
 .social-link {
   color: var(--cyan-soft);
   display: flex;

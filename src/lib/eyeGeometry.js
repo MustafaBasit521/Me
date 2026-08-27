@@ -14,17 +14,17 @@ export function isMobileWidth(width) {
 
 export function eyeCenterFraction(isHome, width) {
   if (isHome) return 0.5
-  return isMobileWidth(width) ? 0.92 : 0.74
+  return isMobileWidth(width) ? 0.97 : 0.74
 }
 
 export function eyeScaleTarget(isHome, width) {
   if (isHome) return 1
-  return isMobileWidth(width) ? 0.45 : 0.6
+  return isMobileWidth(width) ? 0.28 : 0.6
 }
 
 export function eyeDimTarget(isHome, width) {
   if (isHome) return 1
-  return isMobileWidth(width) ? 0.22 : 0.3
+  return isMobileWidth(width) ? 0.14 : 0.3
 }
 
 export function eyeBaseRadius(width, height) {

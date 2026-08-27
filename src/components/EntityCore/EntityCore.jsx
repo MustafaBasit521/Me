@@ -319,6 +319,24 @@ function EntityCore({ isHome = true, page = 'home' }) {
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('mouseleave', handleMouseLeave)
 
+    // Touch devices never fire mousemove, so without this the repulsion/
+    // proximity effects (driven entirely by the `mouse` object above)
+    // simply never trigger on a phone — dragging a finger did nothing.
+    function handleTouchMove(e) {
+      const touch = e.touches[0]
+      if (!touch) return
+      mouse.x = touch.clientX
+      mouse.y = touch.clientY
+      mouse.has = true
+    }
+    function handleTouchEnd() {
+      mouse.has = false
+    }
+    window.addEventListener('touchstart', handleTouchMove, { passive: true })
+    window.addEventListener('touchmove', handleTouchMove, { passive: true })
+    window.addEventListener('touchend', handleTouchEnd, { passive: true })
+    window.addEventListener('touchcancel', handleTouchEnd, { passive: true })
+
     let time = 0
     let spin = 0
     let spinRate = 1 // multiplier on the spin accumulator — spikes to 5 on transition
@@ -477,6 +495,10 @@ function EntityCore({ isHome = true, page = 'home' }) {
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseleave', handleMouseLeave)
+      window.removeEventListener('touchstart', handleTouchMove)
+      window.removeEventListener('touchmove', handleTouchMove)
+      window.removeEventListener('touchend', handleTouchEnd)
+      window.removeEventListener('touchcancel', handleTouchEnd)
     }
   }, [])
 
