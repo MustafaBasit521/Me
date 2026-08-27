@@ -1,8 +1,15 @@
 import { useState } from 'react'
+import { isMuted, toggleMuted, primeAudio } from '../../lib/audio'
 import './StatusBar.css'
 
 function StatusBar({ statusText = 'SYSTEM INITIALIZED // STATUS: ACTIVE' }) {
-  const [audioOn, setAudioOn] = useState(true)
+  const [audioOn, setAudioOn] = useState(() => !isMuted())
+
+  function handleToggle() {
+    primeAudio() // clicking the button is itself a user gesture
+    const nowMuted = toggleMuted()
+    setAudioOn(!nowMuted)
+  }
 
   return (
     <div className="status-bar">
@@ -11,7 +18,7 @@ function StatusBar({ statusText = 'SYSTEM INITIALIZED // STATUS: ACTIVE' }) {
       <button
         type="button"
         className="audio-toggle"
-        onClick={() => setAudioOn((on) => !on)}
+        onClick={handleToggle}
         aria-pressed={audioOn}
       >
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">

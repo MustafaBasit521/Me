@@ -20,6 +20,7 @@ import Projects from './sections/Projects/Projects'
 import Contact from './sections/Contact/Contact'
 import { usePageNav, PAGES, PAGE_LABELS } from './hooks/usePageNav'
 import { eyeCenterFraction, eyeScaleTarget, eyeBaseRadius } from './lib/eyeGeometry'
+import { primeAudio } from './lib/audio'
 
 // Inner-page sections. Home is handled separately since it has no content
 // column / scan beam.
@@ -35,6 +36,23 @@ function App() {
   const { page, goTo, next } = usePageNav()
   const isHome = page === 'home'
   const ActiveSection = SECTIONS[page]
+
+  // AudioContext can't start before a real user gesture (browser autoplay
+  // policy) — prime it on the first click/keydown anywhere, so ripple
+  // pulses work even if the visitor never touches the audio toggle itself.
+  useEffect(() => {
+    function handleFirstGesture() {
+      primeAudio()
+      window.removeEventListener('pointerdown', handleFirstGesture)
+      window.removeEventListener('keydown', handleFirstGesture)
+    }
+    window.addEventListener('pointerdown', handleFirstGesture)
+    window.addEventListener('keydown', handleFirstGesture)
+    return () => {
+      window.removeEventListener('pointerdown', handleFirstGesture)
+      window.removeEventListener('keydown', handleFirstGesture)
+    }
+  }, [])
 
   // Click-to-advance: works on every page, per CLAUDE-CODE-BRIEF.md section
   // 7 — clicking within R*0.34 of the eye's current center advances to the

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import './EntityCore.css'
 import { eyeCenterFraction, eyeScaleTarget, eyeDimTarget } from '../../lib/eyeGeometry'
+import { playPulse } from '../../lib/audio'
 
 const RINGS = 46
 const DPR_CAP = 1.5
@@ -242,10 +243,12 @@ function EntityCore({ isHome = true, page = 'home' }) {
     pendingRipplesRef.current.push({ r: 0.04, v: 2.5, a: 1.45 }) // shockwave
     spinRateTargetRef.current = 5
     apTargetRef.current = 1
+    playPulse(1.45)
 
     const relax = setTimeout(() => {
       pendingRipplesRef.current.push({ r: 0.08, v: 0.9, a: 0.6 }) // softer follow-up
       apTargetRef.current = 0
+      playPulse(0.6)
     }, 300)
     const spinDown = setTimeout(() => {
       spinRateTargetRef.current = 1
@@ -363,6 +366,7 @@ function EntityCore({ isHome = true, page = 'home' }) {
       if (time >= nextRippleAt) {
         ripples.push({ r: 0.16, v: 0.2, a: 0.5 })
         nextRippleAt = time + 5 + Math.random() * 4
+        playPulse(0.5)
       }
       for (let i = ripples.length - 1; i >= 0; i--) {
         const rp = ripples[i]
