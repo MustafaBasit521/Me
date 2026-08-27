@@ -55,22 +55,35 @@ export function toggleMuted() {
 export function playPulse(intensity = 0.5) {
   if (muted) return
   const audioCtx = getContext()
-  if (!audioCtx || audioCtx.state !== 'running') return
+  if (!audioCtx) return
+  // Note: no `audioCtx.state !== 'running'` bail-out here. resume() is
+  // asynchronous — right after calling it, `state` can still legitimately
+  // read 'suspended' for a few milliseconds, so checking it synchronously
+  // here would silently drop sound on a browser that doesn't resolve the
+  // resume instantly (Chrome mostly resumes synchronously when the
+  // context is *created* inside a real gesture, which is why this wasn't
+  // obvious in testing — but it's not guaranteed everywhere). A source
+  // scheduled while still technically suspended plays fine once the
+  // context actually resumes moments later; nothing is lost by not
+  // gating on the check.
 
   const now = audioCtx.currentTime
   const osc = audioCtx.createOscillator()
   const gain = audioCtx.createGain()
   const filter = audioCtx.createBiquadFilter()
 
-  osc.type = 'sine'
+  // Triangle instead of pure sine — a bit more harmonic content, which
+  // reads as noticeably louder than a sine at the same gain on small
+  // laptop/phone speakers.
+  osc.type = 'triangle'
   const freq = 220 + intensity * 260
   osc.frequency.setValueAtTime(freq, now)
   osc.frequency.exponentialRampToValueAtTime(Math.max(40, freq * 0.6), now + 0.5)
 
   filter.type = 'lowpass'
-  filter.frequency.setValueAtTime(1200, now)
+  filter.frequency.setValueAtTime(1800, now)
 
-  const peak = Math.min(0.22, 0.05 + intensity * 0.12)
+  const peak = Math.min(0.5, 0.16 + intensity * 0.24)
   gain.gain.setValueAtTime(0.0001, now)
   gain.gain.exponentialRampToValueAtTime(peak, now + 0.02)
   gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6)
