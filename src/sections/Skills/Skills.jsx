@@ -2,12 +2,10 @@ import PageEyebrow from '../../components/PageEyebrow/PageEyebrow'
 import PageTransition from '../../components/PageTransition/PageTransition'
 import './Skills.css'
 
-// Placeholder stack — real skills land in Phase 9 (data-driven content).
-// From CLAUDE-CODE-BRIEF.md section 11 and Design/Skills.png.
 const CATEGORIES = [
-  { label: 'LANGUAGES', tags: ['PYTHON', 'C++', 'JAVASCRIPT', 'SQL'] },
-  { label: 'AI & ML', tags: ['PYTORCH', 'LLM APIS', 'COMPUTER VISION', 'RAG'] },
-  { label: 'TOOLS', tags: ['GIT', 'DOCKER', 'LINUX', 'REACT'] },
+  { label: 'LANGUAGES', tags: ['C++', 'C#', 'PYTHON', 'JAVASCRIPT'] },
+  { label: 'AI & ML', tags: ['OPENCV', 'MEDIAPIPE', 'TENSORFLOW / KERAS'] },
+  { label: 'TOOLS', tags: ['REACT', 'NODE.JS', 'SFML', 'VISUAL STUDIO', 'VS CODE', 'UNITY', 'GIT'] },
 ]
 
 function Skills() {
@@ -30,8 +28,6 @@ function Skills() {
           </div>
         ))}
       </div>
-
-      <p className="page-hint">SWAP THESE TAGS FOR YOUR REAL STACK</p>
     </PageTransition>
   )
 }

@@ -2,25 +2,25 @@ import PageEyebrow from '../../components/PageEyebrow/PageEyebrow'
 import PageTransition from '../../components/PageTransition/PageTransition'
 import './Projects.css'
 
-// Placeholder projects — edit this array with your real ones. `url` is
-// optional; leave it out (or set to null) and no link renders.
+// `url` is optional — set the real repo link whenever you have it; leave
+// it null and no "VIEW ON GITHUB" link renders for that row.
 const PROJECTS = [
   {
-    title: 'PROJECT TITLE ONE',
-    tags: 'PYTHON // PYTORCH',
-    desc: 'One line on what it does and why it was hard.',
+    title: 'HAND GESTURE RECOGNITION',
+    tags: 'PYTHON // OPENCV // MEDIAPIPE // TENSORFLOW',
+    desc: 'Real-time digit classifier from mid-air finger gestures — MediaPipe hand tracking feeds a CNN trained on MNIST, with pinch-to-clear and open-palm-to-predict controls.',
     url: null,
   },
   {
-    title: 'PROJECT TITLE TWO',
-    tags: 'REACT // LLM API',
-    desc: 'One line on what it does and why it was hard.',
-    url: 'https://github.com/your-handle/project-two',
+    title: 'RESORA',
+    tags: 'REACT // NODE.JS',
+    desc: 'Role-based campus resource booking platform with conflict-detecting REST APIs and separate dashboards for Admin, Teacher/TA, and Student.',
+    url: null,
   },
   {
-    title: 'PROJECT TITLE THREE',
-    tags: 'C++ // SYSTEMS',
-    desc: 'One line on what it does and why it was hard.',
+    title: 'EXPECT THE UNEXPECTED',
+    tags: 'C++ // SFML',
+    desc: '6-level platformer with unpredictable obstacle patterns and a custom physics/gravity engine, inspired by Level Devil.',
     url: null,
   },
 ]
@@ -48,8 +48,6 @@ function Projects() {
           </div>
         ))}
       </div>
-
-      <p className="page-hint">SEND ME YOUR REAL PROJECTS AND I WILL FILL THESE IN</p>
     </PageTransition>
   )
 }

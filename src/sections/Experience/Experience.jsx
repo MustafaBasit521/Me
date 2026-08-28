@@ -2,30 +2,14 @@ import PageEyebrow from '../../components/PageEyebrow/PageEyebrow'
 import PageTransition from '../../components/PageTransition/PageTransition'
 import './Experience.css'
 
-// Placeholder roles — real ones land in Phase 9 (data-driven content).
-// From CLAUDE-CODE-BRIEF.md section 11 and Design/Experience.png.
 const ENTRIES = [
   {
-    start: '2025',
+    start: '2026',
     end: 'PRESENT',
-    role: 'ROLE TITLE',
-    org: 'COMPANY OR LAB // LOCATION',
-    desc: 'What you owned and what shipped because of it — one or two lines, results first.',
+    role: 'IT INTERN',
+    org: 'NESPAK // LAHORE, PAKISTAN',
+    desc: 'Working within the New Ventures department on OCR technology and internal workflows; currently building Fast Connect, an internal social/collaboration platform.',
     current: true,
-  },
-  {
-    start: '2024',
-    end: '2025',
-    role: 'INTERNSHIP TITLE',
-    org: 'COMPANY // LOCATION',
-    desc: 'One line on the work and the measurable outcome.',
-  },
-  {
-    start: '2023',
-    end: '2024',
-    role: 'FREELANCE / SOCIETY ROLE',
-    org: 'ORGANIZATION // REMOTE',
-    desc: 'One line on the work and the measurable outcome.',
   },
 ]
 
@@ -53,8 +37,6 @@ function Experience() {
           </div>
         ))}
       </div>
-
-      <p className="page-hint">SEND ME YOUR REAL ROLES AND DATES</p>
     </PageTransition>
   )
 }
