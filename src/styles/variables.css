@@ -16,8 +16,12 @@
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Shared layout rhythm — nav, telemetry, and content all align to this
-     one edge inset. From CLAUDE-CODE-BRIEF.md section 4. */
-  --edge: clamp(30px, 5.2vw, 100px);
+     one edge inset. Brief section 4 specifies clamp(30px,5.2vw,100px);
+     capped lower here (64px) because at wide desktop widths that grows
+     large enough to visibly separate the nav/status row from the
+     corner brackets (fixed at 34px, independent of --edge) — looked
+     disconnected/floaty on an actual wide monitor. */
+  --edge: clamp(30px, 5.2vw, 64px);
 
   /* Z-index ladder — from CLAUDE-CODE-BRIEF.md section 4. Every layer is a
      sibling in App.jsx (not nested) so this order is guaranteed regardless
