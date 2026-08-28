@@ -53,3 +53,19 @@
   font-size: 12.5px;
   color: rgba(160, 174, 192, 0.8);
 }
+
+.project-link {
+  display: inline-block;
+  margin: 10px 0 0 27px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan-soft);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.project-link:hover {
+  color: var(--text);
+}
