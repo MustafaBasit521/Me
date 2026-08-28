@@ -28,7 +28,7 @@
   margin: 0;
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(28px, 3.4vw, 66px);
+  font-size: clamp(15px, 3.0vw, 66px);
   letter-spacing: 0.09em;
   color: var(--text);
 }
