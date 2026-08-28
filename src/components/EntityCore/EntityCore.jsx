@@ -289,7 +289,7 @@ function EntityCore({ isHome = true, page = 'home' }) {
       // entire "bloom" trick: draw the sharp core into a tiny buffer, let
       // the browser upscale it, then blur it with CSS.
       bloomCanvas.width = Math.round(canvas.width / 4)
-      bloomCanvas.height = Math.round(canvas.height / 4)
+      bloomCanvas.height dpr= Math.round(canvas.height / 4)
       bloomCanvas.style.width = `${width}px`
       bloomCanvas.style.height = `${height}px`
 
