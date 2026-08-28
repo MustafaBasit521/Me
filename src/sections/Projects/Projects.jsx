@@ -9,19 +9,19 @@ const PROJECTS = [
     title: 'HAND GESTURE RECOGNITION',
     tags: 'PYTHON // OPENCV // MEDIAPIPE // TENSORFLOW',
     desc: 'Real-time digit classifier from mid-air finger gestures — MediaPipe hand tracking feeds a CNN trained on MNIST, with pinch-to-clear and open-palm-to-predict controls.',
-    url: null,
+    url: 'https://github.com/MustafaBasit521/Hand_Gesture_Recognition',
   },
   {
     title: 'RESORA',
     tags: 'REACT // NODE.JS',
     desc: 'Role-based campus resource booking platform with conflict-detecting REST APIs and separate dashboards for Admin, Teacher/TA, and Student.',
-    url: null,
+    url: 'https://github.com/orgs/Campus-Resource-Allocation/repositories',
   },
   {
     title: 'EXPECT THE UNEXPECTED',
     tags: 'C++ // SFML',
     desc: '6-level platformer with unpredictable obstacle patterns and a custom physics/gravity engine, inspired by Level Devil.',
-    url: null,
+    url: 'https://github.com/SubhanNoor/1st-semester-project',
   },
 ]
 
