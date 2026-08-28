@@ -8,7 +8,7 @@ const ENTRIES = [
     end: 'PRESENT',
     role: 'IT INTERN',
     org: 'NESPAK // LAHORE, PAKISTAN',
-    desc: 'Working within the New Ventures department on OCR technology and internal workflows; currently building Fast Connect, an internal social/collaboration platform.',
+    desc: 'Working within the New Ventures department on OCR technology and internal workflows, with hands-on work across AI tooling — small internal websites and chatbot integrations — alongside Fast Connect, an internal social/collaboration platform.',
     current: true,
   },
 ]
