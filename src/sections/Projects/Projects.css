@@ -46,6 +46,18 @@
   white-space: nowrap;
 }
 
+@media (max-width: 480px) {
+  /* flex-wrap alone only moves the tags to a new row once they don't fit
+     beside the title — it doesn't know the title itself wrapped to two
+     lines, so a long title left the tags floating oddly next to just its
+     first line. Column layout sidesteps that entirely at narrow widths. */
+  .project-row-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
 .project-desc {
   margin: 8px 0 0;
   padding-left: 27px;
