@@ -41,7 +41,7 @@ function Home() {
       </div>
 
       <div className="home-title">
-        <h1>MUSTAFA</h1>
+        <h1>MUHAMMAD MUSTAFA BASIT</h1>
         <p className="home-subtitle">
           <span className="home-subtitle-dash" />
           COMPUTER SCIENCE // AI // SOFTWARE
