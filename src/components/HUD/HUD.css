@@ -70,28 +70,38 @@
   color: rgba(160, 174, 192, 0.35);
 }
 
+/* Anchored to --edge (+ clearance) rather than a fixed pixel offset.
+   --edge itself shrinks in the ~640-1385px range (clamp(30px,5.2vw,100px)
+   bottoms out below its value at wide desktop widths) while the top-bar/
+   PageNext next to these labels stay --edge-relative — a fixed 72px here
+   used to sit clear of both only by coincidence at the specific widths
+   this got eyeballed against, and visibly collided with the top-bar text
+   at e.g. 1024px once actually checked. */
 .hud-hex--tl {
-  top: 72px;
+  top: calc(var(--edge) + 40px);
   left: 36px;
 }
 .hud-hex--tr {
-  top: 72px;
+  top: calc(var(--edge) + 40px);
   right: 36px;
 }
 .hud-hex--bl {
-  bottom: 72px;
+  bottom: calc(var(--edge) + 40px);
   left: 36px;
 }
 .hud-hex--br {
-  bottom: 72px;
+  bottom: calc(var(--edge) + 40px);
   right: 36px;
 }
 
-/* The top hex labels sit at a fixed 72px — fine against a single-row nav,
-   but the nav wraps to a second row on narrow screens (see Header.css)
-   and would run into them. Purely decorative, so just drop them rather
-   than chase a moving collision. */
-@media (max-width: 640px) {
+/* The top hex labels sit near the top-bar, which wraps to a second row
+   once nav + status text don't fit side by side (see Header.css) — no
+   fixed CSS breakpoint controls that, it's just whatever flex-wrap needs,
+   and the longest status text ("ENTITY LINKED // EXPERIENCE") wraps
+   somewhere between 950-1000px (measured directly, not guessed). 1050px
+   gives that a safety margin. Purely decorative, so just drop them rather
+   than chase a per-page-text-length collision. */
+@media (max-width: 1050px) {
   .hud-hex {
     display: none;
   }
