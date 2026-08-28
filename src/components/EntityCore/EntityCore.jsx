@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import './EntityCore.css'
 import { eyeCenterFraction, eyeScaleTarget, eyeDimTarget } from '../../lib/eyeGeometry'
 import { playRippleSound, playClickSound } from '../../lib/audio'
+import { PAGES } from '../../hooks/usePageNav'
 
 const RINGS = 46
 const DPR_CAP = 1.5
@@ -194,6 +195,59 @@ function drawHaloBands(ctx, cx, cy, R) {
   ctx.stroke()
 }
 
+// Six tick marks around the eye, one per page, starting at 12 o'clock —
+// the eye "remembers" where you've been. Current page gets a long bright
+// tick + a dot beyond it; visited pages get a medium tick; unvisited stay
+// short and faint. `glow` (0-1) is the dial's own visibility — it surfaces
+// only when the cursor is near the core. From brief section 10.1.
+function drawPageDial(ctx, cx, cy, R, currentIndex, visited, glow, dim) {
+  const mul = (0.55 + 0.45 * glow) * (0.6 + 0.4 * dim)
+  const r0 = R * 1.16
+
+  for (let i = 0; i < PAGES.length; i++) {
+    const angle = -Math.PI / 2 + (i / PAGES.length) * TAU
+    const isCurrent = i === currentIndex
+    const isVisited = visited.has(PAGES[i])
+
+    let len
+    let alpha
+    if (isCurrent) {
+      len = R * 0.075
+      alpha = 0.85
+    } else if (isVisited) {
+      len = R * 0.042
+      alpha = 0.34
+    } else {
+      len = R * 0.026
+      alpha = 0.14
+    }
+    alpha *= mul
+
+    const r1 = r0 + len
+    const x0 = cx + Math.cos(angle) * r0
+    const y0 = cy + Math.sin(angle) * r0
+    const x1 = cx + Math.cos(angle) * r1
+    const y1 = cy + Math.sin(angle) * r1
+
+    ctx.strokeStyle = `rgba(150,240,255,${alpha.toFixed(3)})`
+    ctx.lineWidth = isCurrent ? 2 : 1
+    ctx.beginPath()
+    ctx.moveTo(x0, y0)
+    ctx.lineTo(x1, y1)
+    ctx.stroke()
+
+    if (isCurrent) {
+      const dotR = r1 + 4
+      const dx = cx + Math.cos(angle) * dotR
+      const dy = cy + Math.sin(angle) * dotR
+      ctx.beginPath()
+      ctx.arc(dx, dy, 1.8, 0, TAU)
+      ctx.fillStyle = `rgba(150,240,255,${alpha.toFixed(3)})`
+      ctx.fill()
+    }
+  }
+}
+
 // A single expanding, fading ring — auto-spawned every 5-9s, and also
 // brightens any dots it passes through (see the rb calc in the dot loop).
 // From brief section 6.5.
@@ -213,11 +267,13 @@ function drawRipple(ctx, cx, cy, R, rp) {
   ctx.stroke()
 }
 
-function EntityCore({ isHome = true, page = 'home' }) {
+function EntityCore({ isHome = true, page = 'home', visited }) {
   const canvasRef = useRef(null)
   const bloomRef = useRef(null)
   const bloomWideRef = useRef(null)
   const isHomeRef = useRef(isHome)
+  const pageRef = useRef(page)
+  const visitedRef = useRef(visited)
 
   // Transition state, pushed in from outside the RAF loop by the effect
   // below. Refs (not React state) because the loop reads them every frame
@@ -230,6 +286,14 @@ function EntityCore({ isHome = true, page = 'home' }) {
   useEffect(() => {
     isHomeRef.current = isHome
   }, [isHome])
+
+  useEffect(() => {
+    pageRef.current = page
+  }, [page])
+
+  useEffect(() => {
+    visitedRef.current = visited
+  }, [visited])
 
   // The transition sequence — CLAUDE-CODE-BRIEF.md section 8, minus the
   // audio layer (not built yet) and the DOM-swap-during-flash trick (React
@@ -342,6 +406,7 @@ function EntityCore({ isHome = true, page = 'home' }) {
     let spinRate = 1 // multiplier on the spin accumulator — spikes to 5 on transition
     let ap = 0 // pupil aperture — pulses to 1 on transition, opens the pupil + filaments
     let prox = 0
+    let dialGlow = 0 // page dial's own visibility — surfaces near the cursor
     let sc = 1 // iris scale — 1 idle, 0.6 on inner pages
     let dim = 1 // global brightness — 1 idle, 0.3 on inner pages
     let cxf = 0.5 // center-x as a fraction of width — 0.5 idle, 0.74 on inner pages
@@ -399,6 +464,7 @@ function EntityCore({ isHome = true, page = 'home' }) {
       const proxTarget = mouse.has ? Math.max(0, 1 - dcen / (R * 1.1 + 1)) : 0
       prox += (proxTarget - prox) * 0.08
       const boost = 1 + prox * 0.5
+      dialGlow = ease(dialGlow, proxTarget, 6, dt)
 
       ctx.clearRect(0, 0, width, height)
       ctx.globalCompositeOperation = 'lighter'
@@ -406,6 +472,11 @@ function EntityCore({ isHome = true, page = 'home' }) {
       drawHaloBands(ctx, cx, cy, R)
       drawWaveRings(ctx, cx, cy, R, time)
       for (const rp of ripples) drawRipple(ctx, cx, cy, R, rp)
+
+      if (visitedRef.current) {
+        const currentIndex = PAGES.indexOf(pageRef.current)
+        drawPageDial(ctx, cx, cy, R, currentIndex, visitedRef.current, dialGlow, dim)
+      }
 
       for (const p of petals) drawPetal(ctx, cx, cy, R, spin, time, dim, p)
       for (const f of filaments) drawFilament(ctx, cx, cy, R, spin, time, ap, dim, f)

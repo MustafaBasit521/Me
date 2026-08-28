@@ -33,7 +33,7 @@ const SECTIONS = {
 }
 
 function App() {
-  const { page, goTo, next } = usePageNav()
+  const { page, visited, goTo, next } = usePageNav()
   const isHome = page === 'home'
   const ActiveSection = SECTIONS[page]
 
@@ -81,7 +81,7 @@ function App() {
 
   return (
     <>
-      <EntityCore isHome={isHome} page={page} />
+      <EntityCore isHome={isHome} page={page} visited={visited} />
       <Grain />
       <Vignette />
       <Flash page={page} />
