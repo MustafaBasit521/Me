@@ -9,7 +9,7 @@ const PROJECTS = [
     title: 'PROJECT TITLE ONE',
     tags: 'PYTHON // PYTORCH',
     desc: 'One line on what it does and why it was hard.',
-    url: 'https://github.com/your-handle/project-one',
+    url: null,
   },
   {
     title: 'PROJECT TITLE TWO',

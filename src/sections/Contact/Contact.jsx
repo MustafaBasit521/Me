@@ -3,11 +3,9 @@ import PageEyebrow from '../../components/PageEyebrow/PageEyebrow'
 import PageTransition from '../../components/PageTransition/PageTransition'
 import './Contact.css'
 
-// Placeholder links — real ones land in Phase 9 (data-driven content).
-// From CLAUDE-CODE-BRIEF.md section 11 and Design/Contact.png.
-const EMAIL = 'mustafa@example.com'
-const GITHUB_HANDLE = 'github.com/your-handle'
-const LINKEDIN_HANDLE = 'linkedin.com/in/your-handle'
+const EMAIL = 'mustafabasit521@gmail.com'
+const GITHUB_HANDLE = 'github.com/MustafaBasit521'
+const LINKEDIN_HANDLE = 'www.linkedin.com/in/muhammad-mustafa-basit-5a33b5341'
 
 function Contact() {
   const [copied, setCopied] = useState(false)
