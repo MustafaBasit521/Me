@@ -54,9 +54,18 @@ button {
   width: min(720px, 56vw);
   max-height: calc(100vh - clamp(150px, 20vh, 196px));
   overflow-y: auto;
+  overflow-x: hidden;
   z-index: var(--z-content);
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 240, 255, 0.3) transparent;
+  /* The eye sits behind this column by design (see lib/eyeGeometry.js) —
+     on mobile its brightest core lands close enough to the column's
+     right edge that long text (e.g. a long project title) reaching that
+     far washed out against it, unreadable. text-shadow is inherited, so
+     setting it once here covers every heading/paragraph/value inside
+     without needing to guess which future content will be "long enough"
+     to hit the same problem. */
+  text-shadow: 0 0 14px var(--bg), 0 0 6px var(--bg);
 }
 
 @media (max-width: 640px) {

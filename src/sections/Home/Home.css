@@ -3,6 +3,9 @@
   inset: 0;
   z-index: var(--z-telemetry);
   pointer-events: none;
+  /* Same reasoning as .page-content in global.css — keeps text legible
+     regardless of what the eye is doing behind it. */
+  text-shadow: 0 0 14px var(--bg), 0 0 6px var(--bg);
 }
 
 .home-coords {

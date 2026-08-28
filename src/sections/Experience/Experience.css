@@ -5,7 +5,11 @@
 
 .experience-row {
   display: grid;
-  grid-template-columns: 92px 20px 1fr;
+  /* minmax(0, 1fr), not plain 1fr — a bare 1fr track won't shrink below
+     its content's min-content size by default (same rule as flex items),
+     which silently clipped every line of the description against
+     .page-content's overflow-x:hidden instead of wrapping to fit. */
+  grid-template-columns: 92px 20px minmax(0, 1fr);
   column-gap: 20px;
   padding-bottom: 36px;
 }
@@ -16,7 +20,7 @@
 
 @media (max-width: 480px) {
   .experience-row {
-    grid-template-columns: 64px 16px 1fr;
+    grid-template-columns: 64px 16px minmax(0, 1fr);
     column-gap: 12px;
   }
 }
