@@ -2,14 +2,11 @@ import PageEyebrow from '../../components/PageEyebrow/PageEyebrow'
 import PageTransition from '../../components/PageTransition/PageTransition'
 import './About.css'
 
-// Placeholder copy/values — real bio, photo, and stats land in Phase 9
-// (data-driven content). Structure/positioning follows
-// CLAUDE-CODE-BRIEF.md section 11 and Design/AboutMe.png.
 const STATS = [
   { label: 'FOCUS', value: 'AI // SOFTWARE' },
   { label: 'STATUS', value: 'OPEN TO WORK' },
-  { label: 'BASED', value: '— ADD LOCATION' },
-  { label: 'DEGREE', value: 'BS COMPUTER SCIENCE' },
+  { label: 'BASED', value: 'LAHORE, PAKISTAN' },
+  { label: 'DEGREE', value: 'BS COMPUTER SCIENCE — FAST-NUCES' },
 ]
 
 function About() {
@@ -28,10 +25,11 @@ function About() {
         <div className="about-text">
           <h2>COMPUTER SCIENCE STUDENT &amp; BUILDER</h2>
           <p>
-            I build software that thinks — AI systems, tooling and interfaces where the
-            machine does real work instead of decorating a screen. Currently studying
-            computer science and shipping side projects that push into machine learning,
-            systems and interaction design.
+            I'm a computer science student who likes building things that actually work —
+            computer vision systems, full-stack platforms, and the occasional game on the
+            side. Currently interning at NESPAK on OCR technology and internal tooling,
+            while shipping personal projects across machine learning, systems, and
+            interaction design.
           </p>
 
           <dl className="about-stats">
