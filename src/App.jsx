@@ -19,7 +19,7 @@ import Experience from './sections/Experience/Experience'
 import Projects from './sections/Projects/Projects'
 import Contact from './sections/Contact/Contact'
 import { usePageNav, PAGES, PAGE_LABELS } from './hooks/usePageNav'
-import { eyeCenterFraction, eyeScaleTarget, eyeBaseRadius } from './lib/eyeGeometry'
+import { isInEyeHitZone } from './lib/eyeGeometry'
 import { primeAudio } from './lib/audio'
 
 // Inner-page sections. Home is handled separately since it has no content
@@ -60,13 +60,7 @@ function App() {
   // trigger it (see PageTransition.jsx).
   useEffect(() => {
     function handleClick(e) {
-      const w = window.innerWidth
-      const h = window.innerHeight
-      const cx = w * eyeCenterFraction(isHome, w)
-      const cy = h * 0.46
-      const R = eyeBaseRadius(w, h) * eyeScaleTarget(isHome, w)
-      const dist = Math.hypot(e.clientX - cx, e.clientY - cy)
-      if (dist < R * 0.34) next()
+      if (isInEyeHitZone(e.clientX, e.clientY, isHome, window.innerWidth, window.innerHeight)) next()
     }
     window.addEventListener('click', handleClick)
     return () => window.removeEventListener('click', handleClick)

@@ -74,6 +74,15 @@ button {
     /* Leave clearance below for the fixed PageNext control — without this,
        scrolled content's last visible line sits right under/behind it. */
     max-height: calc(100vh - 222px);
+    /* The desktop width (min(720px, 56vw)) exists to leave room for the
+       eye beside the column — on mobile the eye sits dimmed behind the
+       text instead (see lib/eyeGeometry.js), so that budget is wasted
+       space here and was squeezing every line (e.g. Experience's
+       description column) down to a handful of characters before
+       wrapping. Use the real available width instead: viewport minus the
+       left edge inset, minus the right edge inset + SocialNav's rail
+       (~39px) + a small gap before it. */
+    width: calc(100vw - (var(--edge) * 2) - 55px);
   }
 }
 

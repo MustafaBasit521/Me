@@ -32,3 +32,15 @@ export function eyeDimTarget(isHome, width) {
 export function eyeBaseRadius(width, height) {
   return Math.min(width * 0.3, height * 0.46)
 }
+
+// Shared click-to-advance hit test — App.jsx's window click handler and
+// PageTransition's stopClicks guard both need the exact same math, or the
+// mobile eye (which by design sits partly *under* .page-content — see
+// above) silently stops being tappable wherever stopClicks swallows the
+// click first.
+export function isInEyeHitZone(x, y, isHome, width, height) {
+  const cx = width * eyeCenterFraction(isHome, width)
+  const cy = height * 0.46
+  const R = eyeBaseRadius(width, height) * eyeScaleTarget(isHome, width)
+  return Math.hypot(x - cx, y - cy) < R * 0.34
+}

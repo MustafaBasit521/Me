@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { isInEyeHitZone } from '../../lib/eyeGeometry'
 
 // The fade+rise every page's content does on enter/exit
 // (CLAUDE-CODE-BRIEF.md section 8: "opacity 0.32s, translateY(16px)").
@@ -24,7 +25,19 @@ function PageTransition({ className, stopClicks = false, children }) {
       animate="animate"
       exit="exit"
       transition={{ duration: 0.32, ease: 'easeOut' }}
-      onClick={stopClicks ? (e) => e.stopPropagation() : undefined}
+      onClick={
+        stopClicks
+          ? (e) => {
+              // On mobile the eye sits partly *under* this content column
+              // (see lib/eyeGeometry.js) — without this check, tapping the
+              // eye itself would get eaten here before App.jsx's window
+              // click handler ever saw it, so click-to-advance would only
+              // ever work where the column doesn't cover the eye.
+              if (isInEyeHitZone(e.clientX, e.clientY, false, window.innerWidth, window.innerHeight)) return
+              e.stopPropagation()
+            }
+          : undefined
+      }
     >
       {children}
     </motion.div>
