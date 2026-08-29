@@ -1,0 +1,15 @@
+name: security
+on: [push, pull_request]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install "git+https://github.com/MustafaBasit521/commit-guard.git#egg=git-security-tool[scanners]"
+      - run: |
+          url=$(curl -s https://api.github.com/repos/gitleaks/gitleaks/releases/latest \
+            | grep -o 'https://[^"]*linux_x64\.tar\.gz' | head -1)
+          curl -sL "$url" | tar xz -C /usr/local/bin gitleaks
+      - run: git-security-tool scan --all

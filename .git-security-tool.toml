@@ -1,0 +1,5 @@
+[policy]
+block_threshold = "CRITICAL"     # start lenient: only secrets + RCE block
+
+[ignore]
+paths = ["migrations/", "tests/fixtures/", "vendor/", "*.generated.py"]
