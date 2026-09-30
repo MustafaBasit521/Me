@@ -4,11 +4,25 @@ import './Projects.css'
 
 // `url` is optional — set the real repo link whenever you have it; leave
 // it null and no "VIEW ON GITHUB" link renders for that row.
+// `live` is optional — a deployed demo; renders a "LIVE DEMO" link.
 const PROJECTS = [
   {
+    title: 'FAST CONNECT',
+    tags: 'REACT // FASTAPI // MONGODB // GEMINI',
+    desc: 'Full-stack social network for a university community — JWT auth, posts, friends, messaging, blogs, content reports with server-side proof snapshots, a separate admin moderation portal, and an AI companion. Backend tests and CI included.',
+    url: 'https://github.com/MustafaBasit521/Fast_Connect',
+    live: 'https://fast-connect-frontend-three.vercel.app',
+  },
+  {
+    title: 'COMMIT GUARD',
+    tags: 'PYTHON // GITLEAKS // SEMGREP // RUFF',
+    desc: 'Git pre-commit security gate that scans staged changes for leaked secrets and insecure code patterns, blocks serious findings, and reuses the same engine in CI with SARIF output.',
+    url: 'https://github.com/MustafaBasit521/commit-guard',
+  },
+  {
     title: 'HAND GESTURE RECOGNITION',
-    tags: 'PYTHON // OPENCV // MEDIAPIPE // TENSORFLOW',
-    desc: 'Real-time digit classifier from mid-air finger gestures — MediaPipe hand tracking feeds a CNN trained on MNIST, with pinch-to-clear and open-palm-to-predict controls.',
+    tags: 'PYTHON // OPENCV // MEDIAPIPE // PYTORCH',
+    desc: 'Real-time digit classifier from mid-air finger gestures — MediaPipe hand tracking feeds a PyTorch CNN trained on MNIST, with a live confidence chart and an open-palm gesture to clear the canvas.',
     url: 'https://github.com/MustafaBasit521/Hand_Gesture_Recognition',
   },
   {
@@ -43,6 +57,17 @@ function Projects() {
             {project.url && (
               <a className="project-link" href={project.url} target="_blank" rel="noreferrer">
                 VIEW ON GITHUB ↗
+              </a>
+            )}
+            {project.live && (
+              <a
+                className="project-link"
+                style={{ marginLeft: 18 }}
+                href={project.live}
+                target="_blank"
+                rel="noreferrer"
+              >
+                LIVE DEMO ↗
               </a>
             )}
           </div>
